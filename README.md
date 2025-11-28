@@ -98,5 +98,4 @@ graph TD
 
     %% Asociación Comentario - Usuario (Autor)
     Comentario "0..*" -- "1" Usuario : escritoPor
-´´´
-    
+    ´´´
