@@ -1,7 +1,6 @@
 # MapadeNavegacion
 ´´´mermaid
-classDiagram
-    direction LR
+graph TD
     
     %% Definición de Clases con Atributos y Métodos
     class Usuario {
@@ -100,4 +99,4 @@ classDiagram
     %% Asociación Comentario - Usuario (Autor)
     Comentario "0..*" -- "1" Usuario : escritoPor
 ´´´
-    ´´´
+    
