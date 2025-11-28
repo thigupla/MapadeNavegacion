@@ -1,19 +1,103 @@
 # MapadeNavegacion
 ´´´mermaid
-graph TD
-    A[0. Inicio de Sesión] --> B(1. Dashboard/Inicio)
-    B --> C(1. Proyectos)
-    B --> D(1. Clientes)
-    B --> E(1. Reportes)
-    B --> F(1. Configuración)
-    C --> C1(2. Listado de Proyectos)
-    C --> C2(2. Crear Proyecto)
-    C1 --> C3(3. Detalle de Proyecto)
-    C3 --> C4(4. Editar Proyecto)
-    D --> D1(2. Listado de Clientes)
-    D --> D2(2. Crear Cliente)
-    D1 --> D3(3. Detalle de Cliente)
-    B --> G(2. Mi Perfil)
-    style A fill:#f9f,stroke:#333
-    style B fill:#ccf,stroke:#333
+classDiagram
+    direction LR
+    
+    %% Definición de Clases con Atributos y Métodos
+    class Usuario {
+        +id: int
+        +nombre: string
+        +email: string
+        +passwordHash: string
+        +fechaCreacion: Date
+        --
+        +iniciarSesion(email, password)
+        +cerrarSesion()
+        +actualizarPerfil(datos)
+    }
+
+    class Administrador {
+        +id: int
+        +permisosAdministrativos: array<string>
+        --
+        +gestionarUsuarios(accion)
+        +accederLogs()
+    }
+    
+    class Cliente {
+        +id: int
+        +nombreEmpresa: string
+        +contactoPrincipal: string
+        +telefono: string
+        +email: string
+        --
+        +solicitarInfo()
+    }
+
+    class Proyecto {
+        +id: int
+        +nombre: string
+        +descripcion: string
+        +estado: string
+        +fechaInicio: Date
+        +fechaFinEstimada: Date
+        --
+        +crearProyecto()
+        +cambiarEstado(nuevoEstado)
+        +calcularProgreso()
+    }
+    
+    class MiembroProyecto {
+        +id: int
+        +rolEnProyecto: string
+        +fechaAsignacion: Date
+        +fechaFin: Date
+    }
+
+    class Tarea {
+        +id: int
+        +titulo: string
+        +descripcion: string
+        +prioridad: string
+        +fechaVencimiento: Date
+        +estado: string
+        --
+        +crearTarea()
+        +marcarCompletada()
+        +asignarResponsable(usuario)
+    }
+
+    class Comentario {
+        +id: int
+        +contenido: string
+        +fechaCreacion: DateTime
+        --
+        +agregarComentario()
+        +editarComentario()
+    }
+
+    %% Relaciones
+
+    %% Herencia (Administrador es un tipo de Usuario)
+    Usuario <|-- Administrador: Herencia (is-a)
+
+    %% Asociación Cliente - Proyecto
+    Cliente "1" -- "0..*" Proyecto : tiene
+
+    %% Asociación Usuario - Proyecto (via clase MiembroProyecto)
+    Usuario "1" -- "0..*" MiembroProyecto : participa
+    Proyecto "1" -- "0..*" MiembroProyecto : tieneMiembro
+
+    %% Asociación Proyecto - Tarea
+    Proyecto "1" -- "0..*" Tarea : contiene
+
+    %% Asociación Tarea - Usuario (Responsable)
+    Tarea "0..*" -- "1" Usuario : esResponsableDe
+
+    %% Asociación Tarea - Comentario
+    Tarea "1" -- "0..*" Comentario : tiene
+
+    %% Asociación Comentario - Usuario (Autor)
+    Comentario "0..*" -- "1" Usuario : escritoPor
+´´´
     ´´´
